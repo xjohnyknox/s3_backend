@@ -1,7 +1,7 @@
 // s3 bucket
 // dynamoDB table
 
-resource "aws_s3_bucket" "s3_backend" {
+resource "aws_s3_bucket" "bucket_name" {
   bucket = var.bucket_name
   acl    = "private"
 
@@ -23,8 +23,8 @@ resource "aws_s3_bucket" "s3_backend" {
 }
 
 
-resource "aws_dynamodb_table" "db_backend_s3" {
-  name           = var.db_name_backend_s3
+resource "aws_dynamodb_table" "dynamodb_name" {
+  name           = var.dynamodb_name
   billing_mode   = "PROVISIONED"
   read_capacity  = 1
   write_capacity = 1

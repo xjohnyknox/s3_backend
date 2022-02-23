@@ -9,7 +9,7 @@ variable "sse_algorithm" {
   description = "Algorithm for SSE"
 }
 
-variable "db_name_backend_s3" {
+variable "dynamodb_name" {
   description = "Dynamo DB Name"
   type        = string
 }
