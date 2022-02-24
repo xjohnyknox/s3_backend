@@ -1,27 +1,34 @@
 // s3 bucket
 // dynamoDB table
 
-resource "aws_s3_bucket" "bucket_name" {
+resource "aws_s3_bucket" "s3-bucket" {
   bucket = var.bucket_name
-  acl    = "private"
 
-  versioning {
-    enabled = true
-  }
-
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = var.sse_algorithm
-      }
-    }
-  }
   lifecycle {
     prevent_destroy = true
   }
-  tags = locals.tags
+  tags = local.tags
+}
+resource "aws_s3_bucket_acl" "s3-bucket" {
+  bucket = aws_s3_bucket.s3-bucket.id
+  acl    = "private"
+}
+resource "aws_s3_bucket_server_side_encryption_configuration" "bucket_setup" {
+  bucket = aws_s3_bucket.s3-bucket.id
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = var.sse_algorithm
+    }
+  }
 }
 
+resource "aws_s3_bucket_versioning" "bucket_setup" {
+  bucket = aws_s3_bucket.s3-bucket.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+
+}
 
 resource "aws_dynamodb_table" "dynamodb_name" {
   name           = var.dynamodb_name
